@@ -22,6 +22,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import commons.HTTPUtils;
+
 import main.PasswordManager;
 
 import DAO.IdentityEntityFactory;
@@ -30,9 +32,6 @@ import DAO.IdentityEntityFactory;
 
 
 public class IdentityEdit extends JFrame{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	JTextField jtfText1; //Identity Name
 	JTextField jtfText2; //Identity Username
@@ -100,8 +99,12 @@ public class IdentityEdit extends JFrame{
 	}
 	
 	public void load(String key){
-		jtfText1.setText(parentObj.entityFactory.identityListFromStorage.get(key).get("displayName"));
-		jtfText2.setText(parentObj.entityFactory.identityListFromStorage.get(key).get("username"));
+		HashMap<String,HashMap<String,String>> temp = parentObj.entityFactory.identityListFromStorage;
+		jtfText1.setText(temp.get(key).get("displayName"));
+		jtfText2.setText(temp.get(key).get("username"));
+		jtfText3.setText(temp.get(key).get("password"));
+		jtfText4.setText(temp.get(key).get("url"));
+		jtfText5.setText(temp.get(key).get("notes"));
 	}
 
 	private class TextHandler implements ActionListener,Transferable {
@@ -148,7 +151,13 @@ public class IdentityEdit extends JFrame{
     
 	private class OnSubmit implements ActionListener {
 		public void actionPerformed(ActionEvent e) {				
-			currentObj.addedKey = currentObj.jtfText1.getText();
+			try {
+				//currentObj.addedKey = HTTPUtils.returnChar(currentObj.jtfText1.getText());
+				currentObj.addedKey =currentObj.jtfText1.getText();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			entityFactory.Store(currentObj.addedKey, serializeForm());				
 			parentObj.listObject.addToList(currentObj.addedKey, currentObj.inpKey);				
 			currentObj.setVisible(false);			
@@ -157,7 +166,7 @@ public class IdentityEdit extends JFrame{
 		
 		HashMap<String,String> serializeForm(){
 			HashMap<String,String> ret = new HashMap<String,String>();
-			ret.put("name", currentObj.jtfText1.getText());
+			ret.put("name", currentObj.addedKey);
 			ret.put("displayName", currentObj.jtfText1.getText());
 			ret.put("username", currentObj.jtfText2.getText());
 			ret.put("password", currentObj.jtfText3.getText());

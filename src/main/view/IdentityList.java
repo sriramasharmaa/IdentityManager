@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,7 +21,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import main.PassInputAdd;
+import commons.HTTPUtils;
+
+
 import main.PasswordManager;
 import DAO.IdentityEntity;
 //import main.Settings;
@@ -58,7 +61,12 @@ public class IdentityList extends JFrame{
 		Iterator<Entry<String, IdentityEntity>> it = parentObj.entityFactory.entityList.entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry<String, IdentityEntity> e = it.next();			
-			model.addElement(e.getKey());			
+			try {
+				model.addElement(e.getKey());
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}			
 		}		
 		lst = new JList<String>(model);
 	}
@@ -79,7 +87,7 @@ public class IdentityList extends JFrame{
 		public void mouseClicked(MouseEvent arg0) {
 			// TODO Auto-generated method stub
 			if(arg0.getClickCount()==2){
-				PassInputAdd obj;
+				
 				try {
 					//obj = new PassInputAdd(parentObj.entityFactory,parentObj.lst.getSelectedValue().toString());
 					parentObj.edit(lst.getSelectedValue());
@@ -146,8 +154,7 @@ public class IdentityList extends JFrame{
 					String deleteItem = lst.getSelectedValue().toString();
 					model.remove(lst.getSelectedIndex());
 					refreshList();
-					parentObj.entityFactory.Delete(deleteItem);
-					
+					parentObj.entityFactory.Delete(deleteItem);					
 				}
 				
 			}

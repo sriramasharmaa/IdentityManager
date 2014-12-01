@@ -1,11 +1,14 @@
 package DAO;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import commons.HTTPUtils;
 
 
 public class IdentityEntityFactory {	
@@ -61,7 +64,13 @@ public class IdentityEntityFactory {
 		Iterator<Entry<String, HashMap<String, String>>> it =  identityListFromStorage.entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry<String, HashMap<String, String>> pairs = (Map.Entry<String, HashMap<String, String>>)it.next();			
-			String key = pairs.getKey();
+			String key="";
+			try {
+				key = pairs.getKey();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			String val = pairs.getValue().get("displayName");
 			IdentityEntity t = new IdentityEntity();
 			t.setKey(key);t.setVal(val);			
