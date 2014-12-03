@@ -20,9 +20,8 @@ public class Main {
 			if(passwd==null || passwd.trim().length()==0){
 				System.exit(0);
 			}
-			new PasswordManager(passwd);
-			//obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
+			passwd = new PasswordDialog().init();
+			new PasswordManager(passwd);			
 		}
 				
 	}

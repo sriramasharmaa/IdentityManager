@@ -2,6 +2,9 @@ package DAO;
 
 import io.FileOperations;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,7 +19,7 @@ import crypt.BlowfishKey;
 
 
 public class SourceParser {
-	public String sourceMapper="e:/learners-studio/java/IdentityManager/pass2.log";
+	public String sourceMapper="dotg.log";
 	BlowfishKey encObj;
 	ArrayList<IdentityEntity> pwdEntity;
 	public EntityMarshaller readObj;
@@ -29,11 +32,14 @@ public class SourceParser {
 	public SourceParser(String pass) throws Exception{
 		sourceMapper = getDataPath();
 		sourceMapper = sourceMapper.trim();
-		System.out.println(sourceMapper);
+		//System.out.println(sourceMapper);
+		encObj = new BlowfishKey(pass);
 		if(!new File(sourceMapper).isFile()){
-			sourceMapper = System.getProperty("user.dir")+"/"+sourceMapper;			
-		}		
-		encObj = new BlowfishKey(pass);		
+			sourceMapper = System.getProperty("user.dir")+"/dot.log";
+			createBootFile();
+		}	
+		System.out.println(sourceMapper);
+				
 	}
 	
 	public void ChangePassword(String pass){
@@ -60,7 +66,8 @@ public class SourceParser {
 			return readObj.items;
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			
 			JOptionPane.showMessageDialog(null,"Good bye");
 			System.exit(1);
 		}
@@ -96,15 +103,16 @@ public class SourceParser {
 		return true;
 	}
 	
-	public void createBootFile(){
+	public void createBootFile() throws FileNotFoundException, IOException{
 		if(!new File(sourceMapper).exists()){
+			new FileOutputStream(new File(sourceMapper)).close();
 			System.out.println("Creating boot file");
 			HashMap<String,HashMap<String,String>> temp = new HashMap<String,HashMap<String,String>>();
 			HashMap<String,String> e = new HashMap<String,String>();
-			e.put("displayName", "PAN");
-			e.put("value", "AJWPG4074H");
+			e.put("displayName", "TEST");
+			e.put("value", "TEST");
 			e.put("quickRef", "value");
-			temp.put("PAN", e);			
+			temp.put("TEST", e);			
 			Save(temp);			
 		}		
 	}

@@ -3,12 +3,14 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="PasswordKeeper">
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="PasswordKeeper" xmlns:ivy="antlib:org.apache.ivy.ant">
     <property environment="env"/>
     <property name="ECLIPSE_HOME" value="E:/learners-studio/java/eclipsejuno"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
+	<property name="artifact.retrieve.dir" value="ivy-retrieve"/>
     <path id="PasswordKeeper.classpath">
         <pathelement location="bin"/>
         <pathelement location="E:/learners-studio/java/commons-codec-1.8/commons-codec-1.8.jar"/>
@@ -44,6 +46,8 @@
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
+		<ivy:resolve file="ivy.xml"  refresh="true"/>
+		 <ivy:retrieve conf="*"  pattern="${artifact.retrieve.dir}/[type]/[artifact].[ext]" ivypattern="ivy-retrieve/[organization].[module]/ivy.xml"/>
     </target>
     <target name="clean">
         <delete dir="bin"/>
@@ -57,6 +61,22 @@
             <src path="src"/>
             <classpath refid="PasswordKeeper.classpath"/>
         </javac>
+		 <jar destfile="IdentitySuite.jar">
+		    <fileset dir="bin"/>
+			<restrict>
+			 <name name="**/*.class"/>
+			 <archives>
+			   <zips>
+				 <fileset dir="ivy-retrieve/jar" includes="**/*.jar"/>
+			   </zips>
+			 </archives>
+			</restrict>
+			
+		    <manifest>
+		      <attribute name="Main-Class"
+		            value="main.Main"/>
+		    </manifest>
+		  </jar>        
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
     <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">

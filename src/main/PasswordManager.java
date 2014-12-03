@@ -50,11 +50,7 @@ public class PasswordManager  implements IdentityManager{
 	}
 	@Override
 	public void delete() {
-		if(currentObj.lst.getSelectedValue() != null){
-			String deleteItem = currentObj.lst.getSelectedValue().toString();
-			model.remove(currentObj.lst.getSelectedIndex());
-			entityFactory.Delete(deleteItem);
-		}
+
 	}
 	
 	public void addSettings(){
@@ -81,15 +77,15 @@ public class PasswordManager  implements IdentityManager{
 	}
 
 
-
 	
+	public void persistOnCloud(){
+		
+	}
+
+
 	@Override
 	public void list() {
 		// TODO Auto-generated method stub
-		
-	}
-	
-	public void persistOnCloud(){
 		
 	}
 }
