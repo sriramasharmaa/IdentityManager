@@ -1,0 +1,20 @@
+<ivy-module version="2.0">
+    <info organisation="com.dotg" module="store" />
+	<dependencies>
+		<dependency org="commons-codec" name="commons-codec" rev="1.8"/>
+
+		
+		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.4.4"/>
+		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.13"/>
+		<dependency org="org.syncloud" name="dropbox-client" rev="1.5.3"/>
+		<dependency org="org.apache.httpcomponents" name="httpclient" rev="4.4-beta1"/>
+		<dependency org="com.dropbox.core" name="dropbox-core-sdk" rev="1.7.7"/>
+		<dependency org="com.miglayout" name="miglayout-swing" rev="4.2"/>
+		
+    </dependencies>
+	
+<!--    <publications>
+        <artifact name="IdentitySuite" type="zip" ext="jar"/>
+    </publications>-->
+</ivy-module>
+
